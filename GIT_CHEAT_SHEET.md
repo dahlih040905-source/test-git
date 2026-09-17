@@ -171,4 +171,80 @@ git clone -b <分支名或Tag名> --single-branch https://github.com/dahlih04090
 2. 找到你要的版本，點擊右側的 **`< >` (Browse repository at this point in the history)**。
 3. 畫面會停留在該歷史時空，點綠色按鈕 **`Code`** $\rightarrow$ **`Download ZIP`** 下載解壓縮即可。
 
+---
+
+## 9. 分支進階實戰 (接續開發與本地合併)
+
+### A. 接續某分支繼續開發
+* **接續本地已有的分支**：
+  ```powershell
+  git switch <分支名>
+  # 寫 code -> git add . -> git commit -m "..." -> git push
+  ```
+* **接續 GitHub 上有、但本地還沒有的分支**：
+  ```powershell
+  git fetch
+  git switch <遠端分支名>
+  ```
+* **以某分支為基底，分出新分支**：
+  ```powershell
+  git switch -c <新分支名> <基底分支名>
+  git push -u origin <新分支名>
+  ```
+
+### B. 本地直接合併分支 (不用經由網頁 PR)
+```powershell
+git switch main           # 1. 先回到要接收修改的主線
+git merge feat/calc       # 2. 把功能分支合併進來
+git push                  # 3. 推送最新結果到 GitHub
+```
+
+### C. 刪除不需要的分支
+```powershell
+git branch -d feat/calc                  # 刪除本地分支
+git push origin --delete feat/calc       # 刪除 GitHub 上的遠端分支
+```
+
+---
+
+## 10. `.gitignore` 避坑指南 (絕不能推上 GitHub 的檔案)
+
+專案根目錄下建立 `.gitignore` 檔案，Git 就會自動忽略這些檔案，不會誤傳：
+
+```gitignore
+# 依賴套件（太肥，任何人 clone 後自己 npm install 即可）
+node_modules/
+
+# 敏感金鑰與環境變數（絕對不能外流！）
+.env
+.env.local
+
+# 系統快取與日誌
+*.log
+.DS_Store
+Thumbs.db
+
+# 編輯器私人設定
+.vscode/
+.idea/
+```
+
+---
+
+## 11. `git stash` (寫到一半的臨時置物櫃)
+
+* **情境**：功能寫到一半、無法 commit，但老闆/同事突然叫你切去別的分支修急迫 bug。
+```powershell
+# 1. 把當前未完成的改動先存進暫存口袋（工作目錄瞬間變乾淨）
+git stash
+
+# 2. 安心切換分支去修 bug、commit
+git switch other-branch
+
+# 3. 修完切回來，把口袋裡的改動倒出來繼續寫
+git switch my-branch
+git stash pop
+```
+
+
 
