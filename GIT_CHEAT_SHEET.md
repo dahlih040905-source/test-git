@@ -111,3 +111,52 @@ git push -u origin feat/login-page
    # 刪除已合併的本地分支
    git branch -d feat/login-page
    ```
+
+---
+
+## 7. 如何回到某個版本？ (本地時光倒流)
+
+首先查詢歷史紀錄取得 Commit 雜湊碼（ID）：
+```powershell
+git log --oneline
+```
+
+| 目的 | 指令 | 說明 |
+| :--- | :--- | :--- |
+| **只看一眼 / 測試 (最安全)** | `git checkout <Commit-ID>` | 進入該版本狀態，不破壞歷史。看完了輸入 `git switch main` 即可回來 |
+| **以此版本為起點開新分支** | `git switch -c fix-branch <Commit-ID>` | 在過去的時間點另闢新分支開發，不影響原本的 `main` |
+| **只還原特定檔案** | `git restore --source=<Commit-ID> app.js` | 只有指定檔案變回舊版，其餘檔案維持現狀 |
+| **強制時光倒流 (危險)** | `git reset --hard <Commit-ID>` | 當前分支強制退回到該版本，**該版本之後的所有 Commit 會被丟棄** |
+
+---
+
+## 8. 如何在「另一個資料夾」下載某個特定版本？
+
+### 做法 1：Clone 下來後切換版本（最推薦）
+```powershell
+# 1. Clone 專案到自訂的新資料夾（例如 my-old-version）
+git clone https://github.com/dahlih040905-source/test-git.git my-old-version
+
+# 2. 進入該資料夾
+cd my-old-version
+
+# 3. 切換到指定的 Commit 版本
+git checkout <Commit-ID>
+```
+
+---
+
+### 做法 2：如果該版本有「分支名」或「Tag (標籤)」
+只想下載特定的分支或 Tag，不下載其他分支：
+```powershell
+git clone -b <分支名或Tag名> --single-branch https://github.com/dahlih040905-source/test-git.git my-folder
+```
+
+---
+
+### 做法 3：純下載壓縮檔（完全不用打指令）
+1. 打開 GitHub 該專案網頁，點選 **Commits**（歷史紀錄清單）。
+2. 找到你要的版本，點擊右側的 **`< >` (Browse repository at this point in the history)**。
+3. 畫面會停留在該歷史時空，點綠色按鈕 **`Code`** $\rightarrow$ **`Download ZIP`** 下載解壓縮即可。
+
+
