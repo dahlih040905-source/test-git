@@ -51,9 +51,9 @@ git push
 
 ---
 
-## 4. 本地專案結合 GitHub
+## 4. 本地專案結合與上傳 GitHub
 
-### 第一次推送標準步驟：
+### A. 第一次推送（專案剛建立時的綁定步驟）：
 ```powershell
 # 1. 確保分支名稱為現代標準 main
 git branch -M main
@@ -63,6 +63,18 @@ git remote add origin https://github.com/<帳號>/<專案名稱>.git
 
 # 3. 第一次推送並綁定上游 (-u)
 git push -u origin main
+```
+
+### B. 平時寫完程式碼 / 修改檔案後「上傳到 GitHub」的日常 3 步驟：
+```powershell
+# 1. 加入本次修改的所有檔案
+git add .
+
+# 2. 提交版本備註說明
+git commit -m "feat: 你的修改說明"
+
+# 3. 推送到 GitHub（因為第一次已設定 -u，之後只要打 git push）
+git push
 ```
 
 ---
