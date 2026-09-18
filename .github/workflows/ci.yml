@@ -1,0 +1,20 @@
+name: CI Test Pipeline
+
+# 當有任何 push 或 pull request 到任何分支時，都觸發這個流水線
+on: [push, pull_request]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. 拉取專案程式碼
+        uses: actions/checkout@v4
+
+      - name: 2. 設定 Node.js 環境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 3. 執行自動化測試腳本
+        run: node test.js

@@ -262,5 +262,48 @@ git switch my-branch
 git stash pop
 ```
 
+---
 
+## 12. 分支與 GitHub 實戰常見疑惑 (FAQ)
 
+### Q1：分支推送到 GitHub 後，一定要合併回 `main` 嗎？
+* **答案**：**完全不用！**
+* **觀念**：**「推上 GitHub 備份分支」跟「合併進 main」是完全獨立的兩件事**。
+* 分支就是平行時空。只要你不主動提 PR / 合併，該分支就會一直獨立存在 GitHub，可作為平行實驗路線或個人備份，**絕對不會影響到 `main`**。
+
+### Q2：GitHub 網頁跳出黃色提示 `... had recent pushes ... Compare & pull request`，如何消除？
+* **原因**：這是 GitHub 系統自動客套詢問「*你剛推了分支，要提 PR 嗎？*」。
+* **處理方式**：
+  * **直接無視它（推薦）**：不理它就好，不會影響主線，**滿 60 分鐘後會自動消失**。
+  * **立刻消除**：如果這條分支連 GitHub 都不想留，執行 `git push origin --delete <分支名>` 刪除遠端分支，提示條立刻消失。
+
+### Q3：如何確認本地與 GitHub 是 100% 同步的？
+單看 `git status` 不夠（因為它沒去問 GitHub 最新狀況），標準 2 步驟：
+
+```powershell
+# 1. 抓取 GitHub 最新狀態（-p 會順便清理已被刪除的遠端分支快取）
+git fetch -p
+
+# 2. 檢查當前分支狀態
+git status
+```
+
+* 看到 **`Your branch is up to date with 'origin/...'`** 代表 100% 同步！
+
+#### 專家指令：一次查看「所有分支」與 GitHub 的對照
+```powershell
+git branch -vv
+```
+* `[origin/main]`：表示完全同步。
+* `[ahead 1]`：本地多跑了 1 個 commit，需要 `git push`。
+* `[behind 1]`：GitHub 上有新改動，需要 `git pull`。
+* `[origin/...: gone]`：表示該分支在 GitHub 上已被刪除。
+
+### Q4：為什麼新分支的圖表看起來是一直線，沒有「分岔」？
+* **拓撲原理**：如果從 `main` 開了新分支後，**`main` 本身還沒有產生新的 Commit**，Git 在拓撲上屬於 **Fast-Forward（直線延伸）**。
+* **何時會分岔？**：
+  * 只要 `main` 和該分支各自都有新的 Commit（兩條路各自往前跑），輸入：
+    ```powershell
+    git log --graph --oneline --all
+    ```
+    圖表就會清晰呈現平行的分岔樹狀結構！
