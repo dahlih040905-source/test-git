@@ -17,3 +17,4 @@ function greet(name) {
 console.log(greet("Developer"));
 console.log(`3 + 5 = ${add(3, 5)}`);
 console.log(`4 * 6 = ${multiply(4, 6)}`);
+console.log("測試分支分別開發");
