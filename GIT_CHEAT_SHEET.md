@@ -224,9 +224,25 @@ node_modules/
 .DS_Store
 Thumbs.db
 
-# 編輯器私人設定
+# 編輯器與 AI 工具設定
 .vscode/
 .idea/
+.agents/
+```
+
+### 必學：已經被 Git 追蹤才補寫 `.gitignore` 怎麼辦？
+若檔案在寫入 `.gitignore` 之前就已經 commit 過，Git 會繼續追蹤它。需清除 Git 快取（**不會刪除本地檔案**）：
+
+```powershell
+# 單一檔案
+git rm --cached <檔案名稱>
+
+# 整個資料夾（例如 .agents）
+git rm -r --cached .agents
+
+# 接著提交更新即可生效
+git commit -m "chore: stop tracking .agents"
+git push
 ```
 
 ---
